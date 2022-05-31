@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 def calculate_angles(dados):
+    #calculo dos senos e cossenos necessários
     L = np.zeros(len(dados.index))  # comprimento das barras
     C = np.zeros(len(dados.index))  # cosseno
     S = np.zeros(len(dados.index))  # seno
@@ -18,6 +19,7 @@ def calculate_angles(dados):
 
 
 def define_matrix(dados, len, C, S):
+    # definição da matriz A
     A = np.zeros((len, len), dtype=np.float64)
     for j, row in dados.iterrows():
         if C[j] != 0:
@@ -45,6 +47,7 @@ def define_matrix(dados, len, C, S):
 
 
 def calculate_forces(A, V):
+    # resolução do sistema
     det = np.linalg.det(A)
     inversa = np.linalg.inv(A)
     V_t = np.zeros((len(V), 1), dtype=np.float64)
@@ -55,6 +58,7 @@ def calculate_forces(A, V):
 
 
 if __name__ == '__main__':
+    # ler dados do arquivo excel com modelo segundo o dados.xlsx ou dados_2.xlsx
     dados = pd.read_excel('dados_2.xlsx')
     L, C, S = calculate_angles(dados)
     A = define_matrix(dados, len(dados.index), C, S)
